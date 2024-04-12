@@ -1,0 +1,109 @@
+using System;
+using System.Collections.Generic;
+
+namespace RecipeApp
+{
+    // Class to represent an ingredient in a recipe
+    class Ingredient
+    {
+        public string Name { get; set; } // Name of the ingredient
+        public double Quantity { get; set; } // Quantity of the ingredient
+        public string Unit { get; set; } // Unit of the ingredient (e.g., cups, tablespoons)
+        public double OriginalQuantity { get; set; } // Store the original quantity
+    }
+
+    // Class to represent a step in a recipe
+    class RecipeStep
+    {
+        public string Description { get; set; } // Description of the step
+    }
+
+    // Class to represent a recipe
+    class Recipe
+    {
+        private List<Ingredient> ingredients = new List<Ingredient>(); // List of ingredients in the recipe
+        private List<RecipeStep> steps = new List<RecipeStep>(); // List of steps in the recipe
+
+        // Method to add an ingredient to the recipe
+        public void AddIngredient(string name, double quantity, string unit)
+        {
+            ingredients.Add(new Ingredient { Name = name, Quantity = quantity, Unit = unit, OriginalQuantity = quantity });
+        }
+
+        // Method to add a step to the recipe
+        public void AddStep(string description)
+        {
+            steps.Add(new RecipeStep { Description = description });
+        }
+
+        // Method to display the recipe
+        public void DisplayRecipe()
+        {
+            Console.WriteLine("Recipe Details:");
+            Console.WriteLine("Ingredients:");
+            foreach (var ingredient in ingredients)
+            {
+                Console.WriteLine($"{ingredient.Quantity} {ingredient.Unit} of {ingredient.Name}");
+            }
+
+            Console.WriteLine("\nSteps:");
+            for (int i = 0; i < steps.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {steps[i].Description}");
+            }
+        }
+
+        // Method to scale the recipe by a factor
+        public void ScaleRecipe(double factor)
+        {
+            foreach (var ingredient in ingredients)
+            {
+                ingredient.Quantity *= factor;
+            }
+        }
+
+        // Method to reset the quantities of the ingredients to their original values
+        public void ResetQuantities()
+        {
+            foreach (var ingredient in ingredients)
+            {
+                ingredient.Quantity = ingredient.OriginalQuantity;
+            }
+        }
+
+        // Method to clear the data of the recipe
+        public void ClearData()
+        {
+            ingredients.Clear();
+            steps.Clear();
+        }
+    }
+
+    // Main program class
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Example usage:
+            var recipe = new Recipe();
+            recipe.AddIngredient("Sugar", 1.0, "tablespoon");
+            recipe.AddIngredient("Flour", 2.5, "cups");
+            recipe.AddStep("Preheat the oven to 350°F.");
+            recipe.AddStep("Mix sugar and flour.");
+            // Add more ingredients and steps as needed...
+
+            recipe.DisplayRecipe(); // Display the recipe
+
+            // Scale the recipe (e.g., double the quantities)
+            recipe.ScaleRecipe(2.0);
+            recipe.DisplayRecipe(); // Display the recipe after scaling
+
+            // Reset quantities
+            recipe.ResetQuantities();
+            recipe.DisplayRecipe(); // Display the recipe after resetting quantities
+
+            // Clear data
+            recipe.ClearData(); // Clear the data of the recipe
+        }
+    }
+}
